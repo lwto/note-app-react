@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Main from './components/Main'
+import Sidebar from './components/Sidebar'
+import uuid from 'react-uuid'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+export default function App(){
+
+  
+  const [notes,setNotes] = React.useState(
+    () => JSON.parse(localStorage.getItem("notes")) || []
   );
-}
 
-export default App;
+  const addNote = () =>{
+    const newNote = {
+      id:uuid(),
+      title:"Untitled Note",
+      body:"",
+      lastModified:Date.now()
+    }
+    setNotes([newNote,...notes])
+  }
+
+  const deleteNote = (idToDelete) => {
+    setNotes(notes.filter((note) => note.id !== idToDelete))
+  }
+
+  React.useEffect(() => {
+        localStorage.setItem("notes", JSON.stringify(notes))
+    }, [notes])
+    
+
+  return(
+    <div className='container'>
+      <Sidebar notes={notes} addNote={addNote} deleteNote={deleteNote} />
+      {notes.length>0 ? <Main /> : <h2 className='no-note'>No Active Note</h2>}
+    </div>
+  )
+}
