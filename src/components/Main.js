@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactMarkdown from 'react-markdown'
 
 function Main({currentNote, updateNote}) {
  const editNote = (key, value)=>{
@@ -10,6 +11,8 @@ function Main({currentNote, updateNote}) {
  }
 
  if(!currentNote) return <h2 className='no-note'>No Active Note</h2>
+
+ else
 
   return (
     <div className='main'>
@@ -32,7 +35,7 @@ function Main({currentNote, updateNote}) {
       </div>
       <div className="preview">
         <h1>{currentNote.title}</h1>
-        <p>{currentNote.body}</p>
+        <ReactMarkdown>{currentNote.body}</ReactMarkdown>
       </div>
     </div>
   )

@@ -34,10 +34,11 @@ export default function App(){
       if(note.id === activeNote){
         return updatedNote 
       }
-      return notes
+      return note
     })
     setNotes(updatedNotesArray)
   }
+
 
   React.useEffect(() => {
         localStorage.setItem("notes", JSON.stringify(notes))

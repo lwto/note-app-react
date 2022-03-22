@@ -1,8 +1,14 @@
 import React from 'react'
 
 function Sidebar({notes, addNote ,deleteNote, activeNote, setActiveNote}) {
-  const noteElement = notes.map(note => (
-    <div className={`note ${note.id === activeNote && "active"}`} key={note.id} onClick={()=>setActiveNote(note.id)}>
+  const sortedNotes = notes.sort((a,b)=> b.lastModified - a.lastModified)
+
+  const noteElement = sortedNotes.map(note => (
+    <div 
+      className={`note ${note.id === activeNote && "active"}`} 
+      key={note.id} 
+      onClick={()=>setActiveNote(note.id)}
+    >
 
       <div className="note-title">
         <strong>{note.title}</strong>
@@ -10,13 +16,17 @@ function Sidebar({notes, addNote ,deleteNote, activeNote, setActiveNote}) {
       </div> 
 
       <p className='note-preview'>{note.body && note.body.substr(0, 100)+ "..."}</p>
-      <small>Last Modified {new Date(note.lastModified).toLocaleDateString("en-GB",{
+      <small>
+        Last Modified {new Date(note.lastModified).toLocaleDateString("en-GB",{
         hour:"2-digit",
         minute:"2-digit"
-      })}</small>    
+        })}
+      </small>  
+
     </div>
   )
   )
+
   return (
     <div className='sidebar'>
       <div className="header">
