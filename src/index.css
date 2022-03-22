@@ -75,6 +75,15 @@
         color: gray;
     }
     
+    .sidebar .note.active {
+        color: white;
+        background-color: rgb(37, 119, 185);
+    }
+    
+    .sidebar .note.active>small {
+        color: white;
+    }
+    
     .main {
         width: 70%;
         height: 100vh;

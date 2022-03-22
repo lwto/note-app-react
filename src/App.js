@@ -5,10 +5,11 @@ import uuid from 'react-uuid'
 
 export default function App(){
 
-  
   const [notes,setNotes] = React.useState(
     () => JSON.parse(localStorage.getItem("notes")) || []
   );
+
+  const[activeNote, setActiveNote]= React.useState(false)
 
   const addNote = () =>{
     const newNote = {
@@ -24,6 +25,20 @@ export default function App(){
     setNotes(notes.filter((note) => note.id !== idToDelete))
   }
 
+  const currentNote = ()=>{
+    return notes.find(note => note.id === activeNote)
+  }
+
+  const updateNote = (updatedNote)=>{
+    const updatedNotesArray = notes.map(note => {
+      if(note.id === activeNote){
+        return updatedNote 
+      }
+      return notes
+    })
+    setNotes(updatedNotesArray)
+  }
+
   React.useEffect(() => {
         localStorage.setItem("notes", JSON.stringify(notes))
     }, [notes])
@@ -31,8 +46,18 @@ export default function App(){
 
   return(
     <div className='container'>
-      <Sidebar notes={notes} addNote={addNote} deleteNote={deleteNote} />
-      {notes.length>0 ? <Main /> : <h2 className='no-note'>No Active Note</h2>}
+      <Sidebar 
+        notes={notes} 
+        addNote={addNote} 
+        deleteNote={deleteNote} 
+        activeNote={activeNote}
+        setActiveNote={setActiveNote}
+      />
+      <Main 
+        currentNote={currentNote()} 
+        updateNote={updateNote} 
+
+      />
     </div>
   )
 }

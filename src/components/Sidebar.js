@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Sidebar({notes, addNote ,deleteNote}) {
+function Sidebar({notes, addNote ,deleteNote, activeNote, setActiveNote}) {
   const noteElement = notes.map(note => (
-    <div className="note" key={note.id}>
+    <div className={`note ${note.id === activeNote && "active"}`} key={note.id} onClick={()=>setActiveNote(note.id)}>
 
       <div className="note-title">
         <strong>{note.title}</strong>
